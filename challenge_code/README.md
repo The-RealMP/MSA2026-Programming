@@ -1,1 +1,1 @@
-# challenge code developped in class
+# challenge code developed in class
