@@ -7,4 +7,4 @@ This repo will contain python programs from the MSA major, Think like a Programm
 - Interation
 - Functions
 - File Handling
-- Object Oreinted Programming 
+- Object Oreinted Programming (OOP)
