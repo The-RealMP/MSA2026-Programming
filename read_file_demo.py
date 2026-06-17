@@ -11,27 +11,21 @@ def main ():
         #split the line at the comma
         item_name_and_price = line_of_data.split(",")
         print(item_name_and_price)
+        
         #get the item and price from the list 
+        item_name = item_name_and_price[0]
+        item_price = float(item_name_and_price[1])
+
+
         #create a entry in the dictionary for the item and price
+        menu_items[item_name] = item_price
+
     #close the file 
+    data_file.close()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    #print all entrys from the dictionary
+    for items, price in menu_items.items():
+        print(f"{items}: ${price:.2f}")
 
 
 
