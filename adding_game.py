@@ -11,6 +11,7 @@ def get_game_level():
                 print("Error: Invalid input!") 
         except:
             print("Error: Invalid input!") 
+
 def get_number_of_questions():
     # Prompts the user for the number of questions to ask (3 to 10)
     while True:
