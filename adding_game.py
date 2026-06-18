@@ -1,106 +1,71 @@
-import random 
+import random
 
-def user_difficulty(): 
-    while True: 
-        # Prompt the user to enter a difficulty 
-        user_input = input("Enter level 1, 2, or 3: ") 
-        
-        # Validate that the input is 1, 2, or 3 
-        try: 
-            difficulty = int(user_input) 
-            if difficulty in [1, 2, 3]:
-                # Exit the loop if input is valid 
-                break 
-            else: 
-                print("ERROR: Invalid Input!") 
-                continue
-        except: 
-            print("ERROR: Invalid Input!") 
+def get_game_level(): 
+    # Prompts the user to choose a difficulty level: 1, 2, or 3.
+    while True:
+        try:
+            level = int(input("Enter Level 1, 2, 3: ")) 
+            if level in [1, 2 ,3]:
+                return level
+            else:
+                print("Error: Invalid input!") 
+        except:
+            print("Error: Invalid input!") 
+def get_number_of_questions():
+    # Prompts the user for the number of questions to ask (3 to 10)
+    while True:
+        try:
+            num_questions = int(input("Enter number of questions to ask (3 to 10): ")) 
+            if 3 <= num_questions <= 10:
+                return num_questions
+            else:
+                print("ERROR: Please enter an number between 3 and 10!") 
+        except:
+            print("ERROR: Please enter an number between 3 and 10!") 
 
-    if difficulty == 1: 
-        # Create a random number generator 
-        x_random_generator = random.Random() 
-        x_value = x_random_generator.randint(0,9) 
-        print(f"X-Value: {x_value}") 
-        
-        y_random_generator = random.Random() 
-        y_value = y_random_generator.randint(0,9) 
-        print(f"Y-Value: {y_value}") 
-        
-        user_answer = int(input(f"{x_value} + {y_value} = ")) 
-        
-        if user_answer != (x_value + y_value): 
-            print("WRONG!!!")
-            #reprompt 2 more times until correct 
-        else:
-            print("Correct!")
-    if difficulty == 2: 
-        # Create a random number generator 
-        x_random_generator = random.Random() 
-        x_value = x_random_generator.randint(10,99) 
-        print(f"X-Value: {x_value}") 
-        
-        y_random_generator = random.Random() 
-        y_value = y_random_generator.randint(10,99) 
-        print(f"Y-Value: {y_value}") 
-        
-        user_answer = int(input(f"{x_value} + {y_value} = ")) 
-        
-        if user_answer != (x_value + y_value): 
-            print("WRONG!!!") 
-            #reprompt 2 more times until correct 
-        else:
-            print("Correct!")
+def main():
+    # Get Game Settings
+    level = get_game_level()
+    total_questions = get_number_of_questions()
     
-    if difficulty == 3: 
-        # Create a random number generator 
-        x_random_generator = random.Random() 
-        x_value = x_random_generator.randint(100,999) 
-        print(f"X-Value: {x_value}") 
+    # Determine digit ranges based on level
+    if level == 1:
+        min_val, max_val = 0, 9
+    elif level == 2:
+        min_val, max_val = 10, 99
+    else:
+        min_val, max_val = 100, 999
         
-        y_random_generator = random.Random() 
-        y_value = y_random_generator.randint(100,999) 
-        print(f"Y-Value: {y_value}") 
-        
-        user_answer = int(input(f"{x_value} + {y_value} = ")) 
-        
-        if user_answer != (x_value + y_value): 
-            print("WRONG!!!") 
-            #reprompt 2 more times until correct 
-        else:
-            print("Correct!")
-
+    correct_count = 0
     
-# Run the function
-user_difficulty()
-
-
-  
+    # Ask questions
+    for i in range(total_questions):
+        x = random.randint(min_val, max_val)
+        y = random.randint(min_val, max_val)
+        correct_answer = x + y
         
+        max_attempts = 3
+        # Handle up to 3 attempts per question
+        for attempt in range(max_attempts):
+            user_input = input(f"{x} + {y} = ") 
+            try:
+                user_answer = int(user_input)
+                if user_answer == correct_answer:
+                    print("CORRECT!!!") 
+                    correct_count += 1
+                    break
+                else:
+                    print("WRONG!!!") 
+            except:
+                print("WRONG!!!") 
+                
+            # if run out of attempts print the answer
+            if attempt == max_attempts - 1:
+                print(f"Correct Answer: {x} + {y} = {correct_answer}") 
+                
+    # Calculate and print percentage
+    percentage = (correct_count / total_questions) * 100
+    print(f"You got {correct_count} out of {total_questions} questions correct: {percentage:.2f}%")
 
-
-
-
-
-
-#def main ():
-    #while True:
-        
-
-        #Prompt the user to enter a how many questions: 3-10: user_questions
-            #validate user input: if user_questions != 3-10 reprompt
-    #generate X and Y for questions 1-3 based off users diffculty chosen
-        #1 - numbers 0-9
-        #2 - numbers 10-99
-        #3 - numbers 100-999
-    #print questions
-        #prompt user to answer questions
-            #if answer is  correct
-                #print "CORRECT!!!" and go to the next question
-            #if answer is not correct
-                #print "WRONG!!!" and reprompt
-                #if after the 3rd time of answering the question print "Correct answer: X + Y = ans" then go to next question
-        #calculate how many out of the questions they got right and print the percentage
-            # (number_of_questions_right / total_number_of questions)*100 = percentage correct:.2f
-
-#main()
+if __name__ == "__main__":
+    main()
