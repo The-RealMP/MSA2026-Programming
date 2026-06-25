@@ -3,10 +3,10 @@ from Student import Student
 
 """
 Function to return a list of student objects
-Input:None
-Output:List of student objects 
+Input: none
+Output: list of student objects
 """
-def load_students ()-> list[Student]:
+def load_students() -> list[Student]:
     #Create 2 instances of Student
     list_of_students = []
 
@@ -52,20 +52,20 @@ def load_students ()-> list[Student]:
 
 """
 Function to convert student objects into student dictionaries
-Input: List of student objects
-Output: List of student dictionaries
+Input: lisst of student objects
+Output: list of student dictionaries
 """
-def student_to_dictionary(list_of_students:list[Student]) ->list[dict]:
-    #create a empty list to store the dictionaries
+def student_to_dictionary(list_of_students: list[Student]) -> list[dict]:
+    #create an empty list to store the dictionaries
     student_dictionary_list = []
 
-    #loop through the list and write each students data to a dictionary
+    #loop through the list of students and write each students data to a dictionary
     for student in list_of_students:
-        #create a empty dictionary
+        #create an empty dictionary
         student_dictionary = {}
 
         #make entries into the dictionary using the student properties
-        #firstname, last name, major, gpa, class, ID
+        #firstname, last name, major, gpa, class, id
         student_dictionary['first_name'] = student.get_first_name()
         student_dictionary['last_name'] = student.get_last_name()
         student_dictionary['major'] = student.get_major()
@@ -78,16 +78,19 @@ def student_to_dictionary(list_of_students:list[Student]) ->list[dict]:
 
     #return the list of dictionaries
     return student_dictionary_list
+
 """
 Function to get student dictionaries
-Input:none
-Output: a list of student dictionaries 
+Input: None
+Output: a list of student dictionaries
 """
 def get_student_dictionaries():
     #get a list of students
     student_list = load_students()
-    
+
     #get a list of student dictionaries
     student_dictionaries = student_to_dictionary(student_list)
 
     return student_dictionaries
+
+

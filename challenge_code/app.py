@@ -1,44 +1,52 @@
-import flask
-from flask import request, jsonify
-import student_generator_v2 as sg
+from flask import Flask, render_template, request, url_for, redirect, abort, flash
+import requests
 
-#create a flask app object
-app = flask.Flask(__name__)
-
-#tell the server to reload each time the code changes
+#make a Flask app
+app = Flask(__name__)
 app.config["DEBUG"] = True
 
-"""
-Function to query the list of student dictionaries based on a search key, and a value
-Input: search_key - key in the dictionary we want to check the value of
-        search_value - value of the key we need to match 
-Output: list of student dictionaries that match the search criteria 
-"""
+#set secret key
+app.config["SECRET_KEY"] = "your secret key"
 
-def search_dictionary_list(search_key, search_value):
-    student_dictionaries = sg.get_student_dictionaries()
-    student_list = []
-    for student in student_dictionaries:
-        if search_value.lower() == search_value:
-            student_dictionaries.append(student_list)
-           
+"""
+Function to request student data from the api
+Input: url
+Output: JSON student data
+"""
+def get_student_data(url:str):
+    #make a request
+    response = requests.get(url)
 
-#create a route for the home page of the application
+    #convert the format to JSON
+    response_json = response.json()
+
+    #return the response
+    return response_json
+
+#create a route for the website index/root/homepage. Will display all student data
 @app.route('/', methods=['GET'])
 def index():
-    return "<h1>Student Data API</h1>"
+    #make a request to the student data api for all students
+    url = "http://127.0.0.1:5000/api/students/all"
 
-#create end points for the functions we will create
-#create a route to return all student data
-@app.route('/api/students/all', methods=['GET'])
-def api_all():
-    #get student dictionaries 
-    student_dictionaries = sg.get_student_dictionaries()
-    return jsonify (student_dictionaries)
+    #get the student data
+    student_data = get_student_data(url)
+    return render_template('index.html', student_data=student_data)
 
-#create a route that returns students in a specific major
-#create a route that returns students of a specific class (freshmen,sophomore....)
-#create a route that returns a specific student by ID
+#create a route for the majors seacrh page to respond to get request
+@app.route('/majors', methods=['GET'])
+def majors_get():
+    #get the list of majors
+    url = "http://127.0.0.1:5000/api/majors/all"
+    major_list = get_student_data(url)
 
-#run the application
-app.run(debug=True)
+    #send the list of majors to the majors template to populate the menu
+    return render_template('majors.html', major_list=major_list)
+
+#create a route for the majors search page to respond to 
+#POST requests after the form is submitted
+
+
+
+#run the flask app
+app.run(port=5001)
